@@ -1,5 +1,5 @@
 name: Jest Unit Testing and Lint
-run-name: ${{ github.actor }} has initiated a Pull Request
+run-name: ${{ github.actor }} triggered a build by a ${{ github.event_name }} event.
 on: 
   push:
   pull_request:
@@ -8,10 +8,13 @@ on:
 jobs:
   jest-unit_test-lint:
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./testApp
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: |
               npm ci
               npm run build
               npm run test
               npm run lint
+        working-directory: ${{env.working-directory}}
